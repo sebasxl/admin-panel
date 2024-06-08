@@ -24,10 +24,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      // Aquí puedes añadir lógica para validar el token si es necesario
-      // y cargar el usuario desde el token o una solicitud adicional
-      setUser({ username: 'Placeholder', role: 'admin' }); // Reemplaza con lógica de validación real
+    const userData = JSON.parse(localStorage.getItem('user'));
+    if (token && userData) {
+      setUser(userData);
     }
   }, []);
 
@@ -36,6 +35,7 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('/api/users/login', { correo, contrasena });
       const { token, user: userData } = response.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
       navigate('/dashboard');
     } catch (error) {
@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setUser(null);
     navigate('/');
   };

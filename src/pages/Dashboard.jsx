@@ -1,4 +1,4 @@
-
+import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 
@@ -20,13 +20,16 @@ function Dashboard() {
     }
   };
 
-  return (
-    <div>
-      <Navbar />
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold">
-          {user ? getWelcomeMessage() : 'Bienvenido, por favor inicie sesión.'}
-        </h1>
+    return (
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-1">
+        <Navbar />
+        <div className="container mx-auto p-4">
+          <h1 className="text-2xl font-bold">
+            {user ? getWelcomeMessage() : 'Bienvenido, por favor inicie sesión.'}
+          </h1>
+        </div>
       </div>
     </div>
   );

@@ -16,9 +16,14 @@ function Organizations() {
   const fetchOrganizations = async () => {
     try {
       const response = await axios.get('/api/organizations');
-      setOrganizations(response.data);
+      if (Array.isArray(response.data)) {
+        setOrganizations(response.data);
+      } else {
+        setOrganizations([]);
+      }
     } catch (error) {
       console.error('Error fetching organizations:', error);
+      setOrganizations([]);
     }
   };
 
@@ -81,19 +86,23 @@ function Organizations() {
               Crear Organización
             </button>
           </div>
-          <ul>
-            {organizations.map(org => (
-              <li key={org.id_organizacion} className="border p-2 mb-2 flex justify-between items-center">
-                <span>{org.nombre} - {org.direccion}</span>
-                <button
-                  onClick={() => handleDeleteOrganization(org.id_organizacion)}
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                >
-                  Eliminar
-                </button>
-              </li>
-            ))}
-          </ul>
+          {Array.isArray(organizations) && organizations.length > 0 ? (
+            <ul>
+              {organizations.map(org => (
+                <li key={org.id_organizacion} className="border p-2 mb-2 flex justify-between items-center">
+                  <span>{org.nombre} - {org.direccion}</span>
+                  <button
+                    onClick={() => handleDeleteOrganization(org.id_organizacion)}
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                  >
+                    Eliminar
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No hay organizaciones disponibles</p>
+          )}
         </div>
       </div>
     </div>
