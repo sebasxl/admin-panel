@@ -15,7 +15,7 @@ function Organizations() {
 
   const fetchOrganizations = async () => {
     try {
-      const response = await axios.get('/api/organizations');
+      const response = await axios.get('http://localhost:3000/api/organizations');
       if (Array.isArray(response.data)) {
         setOrganizations(response.data);
       } else {
@@ -34,7 +34,7 @@ function Organizations() {
 
   const handleCreateOrganization = async () => {
     try {
-      const response = await axios.post('/api/organizations', newOrganization);
+      const response = await axios.post('http://localhost:3000/api/organizations', newOrganization);
       setOrganizations([...organizations, response.data.organization]);
       setNewOrganization({ nombre: '', direccion: '' });
     } catch (error) {
@@ -44,7 +44,7 @@ function Organizations() {
 
   const handleDeleteOrganization = async (id) => {
     try {
-      await axios.delete(`/api/organizations/${id}`);
+      await axios.delete(`http://localhost:3000/api/organizations/${id}`);
       setOrganizations(organizations.filter(org => org.id_organizacion !== id));
     } catch (error) {
       console.error('Error deleting organization:', error);
